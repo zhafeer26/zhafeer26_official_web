@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Profil Guru Teknik Elektronika Industri SMK - ZHAFEER26"/>
+  <title>Guru Teknik Elektronika Industri - ZHAFEER26</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-blue: #00f2ff;
+      --deep-blue: #0f1b3d;
+      --purple: #8b00ff;
+      --dark-bg: #0a0e27;
+      --card-bg: rgba(15, 25, 60, 0.75);
+      --text-light: #e0faff;
+      --text-accent: #a0f0ff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', system-ui, sans-serif;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1a3d 50%, #2d1b69 100%);
+      color: var(--text-light);
+      line-height: 1.7;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(0,242,255,0.12) 0%, transparent 60%),
+        radial-gradient(circle at 80% 20%, rgba(139,0,255,0.12) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    /* ================= NAVBAR ================= */
+    nav {
+      position: fixed;
+      inset-block-start: 0;
+      inset-inline: 0;
+      background: rgba(10,14,39,0.92);
+      backdrop-filter: blur(8px);
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      border-block-end: 1px solid rgba(0,242,255,0.25);
+    }
+
+    .logo {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      background: linear-gradient(90deg, var(--neon-blue), var(--purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 20px rgba(0,242,255,0.6);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.8rem;
+    }
+
+    nav ul li a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.nav-link-active {
+      color: var(--neon-blue);
+      text-shadow: 0 0 12px var(--neon-blue);
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: var(--neon-blue);
+    }
+
+    /* ================= HEADER ================= */
+    header {
+      height: 100vh;
+      min-height: 700px;
+      background: linear-gradient(rgba(10,14,39,0.9), rgba(10,14,39,0.95)),
+                  url('https://images.unsplash.com/photo-1581092580493-3e7c10d6c9a5?auto=format&fit=crop&q=80&w=2070') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+    }
+
+    header h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(4.5rem, 12vw, 7.5rem);
+      background: linear-gradient(120deg, var(--neon-blue) 0%, #66f0ff 40%, var(--purple) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 60px rgba(0,242,255,0.8);
+      margin-block-end: 1.2rem;
+      animation: glow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 30px rgba(0,242,255,0.7); }
+      to   { text-shadow: 0 0 90px rgba(0,242,255,1), 0 0 140px rgba(139,0,255,0.7); }
+    }
+
+    header p {
+      font-size: clamp(1.3rem, 4vw, 1.7rem);
+      color: var(--text-accent);
+      text-shadow: 0 0 15px rgba(0,242,255,0.5);
+      max-width: 900px;
+      padding-inline: 1rem;
+    }
+
+    /* ================= MAIN CONTENT ================= */
+    main {
+      padding-block: 160px 80px;
+      padding-inline: 5%;
+    }
+
+    .guru-section {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .guru-box {
+      display: grid;
+      grid-template-columns: minmax(400px, 480px) 1fr;
+      background: var(--card-bg);
+      border-radius: 28px;
+      overflow: hidden;
+      margin-block-end: 100px;
+      box-shadow: 0 0 50px rgba(0,242,255,0.2);
+      border: 1px solid rgba(0,242,255,0.3);
+      position: relative;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .guru-box:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 70px rgba(0,242,255,0.35);
+    }
+
+    .guru-box::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      background: linear-gradient(45deg, var(--neon-blue), var(--purple), var(--neon-blue));
+      border-radius: 30px;
+      z-index: -1;
+      opacity: 0.7;
+      animation: borderGlow 6s linear infinite;
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { opacity: 0.7; }
+      50%      { opacity: 1;   }
+    }
+
+    .guru-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(1.08) contrast(1.15);
+      transition: transform 0.6s ease;
+      loading: lazy;
+    }
+
+    .guru-box:hover img {
+      transform: scale(1.06);
+    }
+
+    .guru-box .info {
+      padding: 5rem 4.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .guru-box h2 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(2.8rem, 6vw, 3.8rem);
+      background: linear-gradient(90deg, var(--neon-blue), #66f0ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-block-end: 1rem;
+      text-shadow: 0 0 25px rgba(0,242,255,0.5);
+    }
+
+    .jabatan {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #000;
+      background: linear-gradient(90deg, var(--neon-blue), #66f0ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+      padding: 0.7rem 2rem;
+      border-radius: 50px;
+      margin-block-end: 2rem;
+      box-shadow: 0 0 25px rgba(0,242,255,0.6);
+    }
+
+    .quote {
+      background: rgba(0,242,255,0.1);
+      padding: 2.2rem;
+      border-inline-start: 6px solid var(--neon-blue);
+      border-radius: 12px;
+      font-style: italic;
+      font-size: 1.2rem;
+      margin: 2rem 0;
+      line-height: 1.8;
+      color: #c0f8ff;
+      box-shadow: 0 0 25px rgba(0,242,255,0.15);
+    }
+
+    /* ================= FOOTER ================= */
+    footer {
+      background: linear-gradient(to top, #0a0e27, #0f1b3d);
+      color: #88d0ff;
+      text-align: center;
+      padding: 8rem 1.5rem 4rem;
+      border-block-start: 3px solid rgba(0,242,255,0.35);
+      position: relative;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      inset-inline: 0;
+      block-size: 6px;
+      inset-block-start: -3px;
+      background: linear-gradient(90deg, var(--neon-blue), var(--purple), var(--neon-blue));
+      box-shadow: 0 0 30px var(--neon-blue);
+    }
+
+    .gold-text {
+      font-size: 1.6rem;
+      background: linear-gradient(90deg, var(--neon-blue), #a0f0ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 30px rgba(0,242,255,0.6);
+      margin: 1.5rem 0;
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 1100px) {
+      .guru-box {
+        grid-template-columns: 1fr;
+      }
+      .guru-box img {
+        height: 520px;
+      }
+      .guru-box .info {
+        padding: 4rem 3rem;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        position: absolute;
+        inset-block-start: 100%;
+        inset-inline-end: 5%;
+        inline-size: 240px;
+        flex-direction: column;
+        background: rgba(15,27,61,0.95);
+        backdrop-filter: blur(10px);
+        padding: 1.5rem;
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        display: none;
+      }
+
+      nav ul.show {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      header h1 {
+        font-size: clamp(3.5rem, 10vw, 5rem);
+      }
+
+      .guru-box img {
+        height: 420px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .guru-box .info {
+        padding: 3rem 1.8rem;
+      }
+      .jabatan {
+        font-size: 1.2rem;
+        padding: 0.6rem 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav aria-label="Navigasi utama">
+    <div class="logo">ZHAFEER26</div>
+
+    <div class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">☰</div>
+
+    <ul id="nav-menu">
+      <li><a href="profil-guru.html">Kembali</a></li>
+      <li><a href="profil-guru-TJKT.html">TJKT</a></li>
+      <li><a href="profil-guru-bc.html">BC</a></li>
+      <li><a href="profil-guru-tei.html" class="nav-link-active" aria-current="page">TEI</a></li>
+      <li><a href="profil-guru-tpfl.html">TP</a></li>
+      <li><a href="tim-penyusun.html">Penyusun</a></li>
+    </ul>
+  </nav>
+
+  <header>
+    <h1>Teknik Elektronika Industri</h1>
+    <p>4 pilar kuat yang mencetak teknisi elektronika handal siap industri 4.0</p>
+  </header>
+
+  <main>
+    <section class="guru-section" aria-labelledby="guru-heading">
+      <h2 id="guru-heading" class="visually-hidden">Daftar Guru Teknik Elektronika Industri</h2>
+
+      <!-- Bu Retika -->
+      <article class="guru-box">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=800" alt="Potret Bu Retika, Kepala Program Teknik Elektronika Industri">
+        <div class="info">
+          <h2>Bu Retika, S.T., M.Pd.</h2>
+          <div class="jabatan">Kepala Program Teknik Elektronika Industri</div>
+          <p>Ibu yang berhasil membawa jurusan TEI menjadi yang terdepan di tingkat provinsi. Beliau merancang laboratorium modern dan menjalin kerjasama dengan perusahaan industri besar.</p>
+          <blockquote class="quote">“Elektronika itu bukan sulap — tapi kalau kamu paham, rasanya seperti sulap.”</blockquote>
+          <p>Alumni kami kini bekerja di Siemens, Schneider Electric, dan berbagai pabrik otomotif nasional.</p>
+        </div>
+      </article>
+
+      <!-- Pak Sudji -->
+      <article class="guru-box">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800" alt="Potret Pak Sudji, pengajar Sistem Tenaga Listrik & PLC">
+        <div class="info">
+          <h2>Pak Sudji, S.T.</h2>
+          <div class="jabatan">Sistem Tenaga Listrik & PLC</div>
+          <p>Guru legendaris PLC Siemens dan Schneider. Bisa membuat sistem conveyor berjalan hanya dengan beberapa baris ladder logic.</p>
+          <blockquote class="quote">“Kalau relay masih nyala setelah tombol dilepas, berarti kamu belum paham NC-NO.”</blockquote>
+          <p>Praktikum beliau selalu siap dipasang langsung di dunia industri.</p>
+        </div>
+      </article>
+
+      <!-- Pak Suyut -->
+      <article class="guru-box">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1557862921-37829c790f19?auto=format&fit=crop&q=80&w=800" alt="Potret Pak Suyut, pengajar Elektronika Digital & Mikrokontroler">
+        <div class="info">
+          <h2>Pak Suyut, M.T.</h2>
+          <div class="jabatan">Elektronika Digital & Mikrokontroler</div>
+          <p>Ahli Arduino, ESP32, STM32. Membimbing siswa membuat robot line follower hingga sistem IoT industri dalam satu semester.</p>
+          <blockquote class="quote">“Kalau masih pakai delay(), berarti kamu belum layak jadi engineer.”</blockquote>
+          <p>Banyak alumni menjadi embedded engineer di startup teknologi dan BUMN.</p>
+        </div>
+      </article>
+
+      <!-- Bu Amel -->
+      <article class="guru-box">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1580489940927-882e76c7c604?auto=format&fit=crop&q=80&w=800" alt="Potret Bu Amel, pengajar Instrumentasi & Pengukuran">
+        <div class="info">
+          <h2>Bu Amel, S.Pd.</h2>
+          <div class="jabatan">Instrumentasi & Pengukuran</div>
+          <p>Spesialis sensor dan transducer. Dari termokopel hingga load cell — semuanya diajarkan dengan ketelitian tinggi.</p>
+          <blockquote class="quote">“Kesalahan 0,01 volt saja bisa bikin pabrik rugi ratusan juta.”</blockquote>
+          <p>Laboratorium instrumentasi kami menjadi salah satu yang terlengkap berkat dedikasi beliau.</p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 Zhafeer26 – The Webalizer</p>
+    <p class="gold-text">Terima Kasih Bu Retika, Pak Sudji, Pak Suyut & Bu Amel<br>Kalian adalah Voltase yang Menyala di Masa Depan Kami</p>
+    <p>Diterbitkan oleh <strong>ZHAFEER26</strong></p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggle = document.getElementById("menu-toggle");
+      const menu = document.getElementById("nav-menu");
+
+      toggle.addEventListener("click", () => {
+        const isExpanded = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", !isExpanded);
+        menu.classList.toggle("show");
+      });
+
+      // Tutup menu saat link diklik (mobile)
+      document.querySelectorAll("#nav-menu a").forEach(link => {
+        link.addEventListener("click", () => {
+          menu.classList.remove("show");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      // Reset saat resize ke desktop
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 768) {
+          menu.classList.remove("show");
+          toggle.setAttribute("aria-expanded", "false");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

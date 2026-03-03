@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Zhafeer26 – Generasi Emas SMK Al-Mahrusiyah & JKM 10 Putra">
+    <meta name="keywords" content="Zhafeer26, Angkatan 2026, SMK Al-Mahrusiyah, JKM 10, alumni Lirboyo">
+    <title>Zhafeer26 | Tentang Kami</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        :root {
+            --blue-main: #0D1B2A;
+            --cyan-glow: #21E6C1;
+            --purple-end: #6A0DAD;
+            --purple-glow: #BA55D3;
+            --text: #E0F7FA;
+            --text-light: #B0E0E6;
+            --dark-bg: #000;
+            --glass: rgba(15, 23, 42, 0.45);
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; -webkit-overflow-scrolling: touch; }
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text);
+            line-height:1.6;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        /* LOGO Z BACKGROUND – lebih kecil & transparan di mobile */
+        .logo-z-bg {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: clamp(200px, 60vmin, 500px);
+            opacity: 0.25;
+            z-index: 1;
+            pointer-events: none;
+            filter: drop-shadow(0 0 40px var(--cyan-glow)) drop-shadow(0 0 80px var(--purple-end));
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(10,15,30,0.95);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(33,230,193,0.15);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.4rem, 5vw, 1.9rem);
+            font-weight: 900;
+        }
+        .nav-logo img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #21E6C1;
+            transition: all 0.5s;
+        }
+        .nav-logo:hover img { transform: scale(1.15) rotate(360deg); }
+        .nav-menu {
+            display: flex;
+            gap: 1.8rem;
+            list-style: none;
+            margin: 0;
+        }
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-link:hover, .nav-link.active { color: var(--cyan-glow); }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -6px; left: 0;
+            width: 0; height: 2px;
+            background: linear-gradient(90deg, var(--cyan-glow), var(--purple-glow));
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .hamburger { display: none; font-size: 1.8rem; color: var(--cyan-glow); cursor: pointer; }
+
+        /* HERO ABOUT */
+        .hero-about {
+            min-height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 1rem 60px;
+        }
+        .hero-about h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(3.2rem, 10vw, 7rem);
+            font-weight: 900;
+            letter-spacing: clamp(6px, 4vw, 12px);
+            background: linear-gradient(90deg, #00ffff, #21E6C1 35%, #BA55D3 70%, #e0f7fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 2px #000;
+            text-shadow: 0 0 25px #00ffff, 0 0 50px #21E6C1, 0 0 80px #BA55D3;
+            animation: neonPulse 5s infinite alternate ease-in-out;
+            margin: 0;
+        }
+
+        /* LOGO GRID */
+        .gambar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin: 2rem 1rem;
+            z-index: 11;
+        }
+        .gambar img {
+            max-height: clamp(80px, 20vw, 140px);
+            width: auto;
+            object-fit: contain;
+            filter: brightness(1.2) contrast(1.3) drop-shadow(0 0 20px #21E6C1);
+            transition: all 0.4s ease;
+        }
+        .gambar img:hover {
+            transform: scale(1.12);
+            filter: brightness(1.4) contrast(1.5) drop-shadow(0 0 40px #BA55D3);
+        }
+
+        /* SECTIONS */
+        .section { padding: clamp(4rem, 10vw, 7rem) 0; }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            z-index: 10;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: clamp(3rem, 9vw, 6rem);
+            font-weight: 900;
+            text-align: center;
+            margin: 3rem auto 4rem;
+            letter-spacing: 8px;
+            background: linear-gradient(90deg, #00ffff, #21E6C1 35%, #BA55D3 70%, #e0f7fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 2px #000;
+            text-shadow: 0 0 25px #00ffff, 0 0 50px #21E6C1;
+            animation: neonPulse 5s infinite alternate;
+        }
+
+        .grid { display: grid; place-items: center; gap: 2rem; }
+        .card {
+            background: var(--glass);
+            padding: clamp(1.5rem, 4vw, 2.5rem);
+            border-radius: 16px;
+            text-align: center;
+            max-width: 700px;
+            width: 100%;
+            border: 1px solid rgba(33,230,193,0.2);
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+        }
+        .card:hover {
+            transform: translateY(-12px);
+            border-color: var(--cyan-glow);
+            box-shadow: 0 25px 70px rgba(33,230,193,0.35);
+        }
+        .card img {
+            width: clamp(140px, 30vw, 200px);
+            height: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        .stat {
+            padding: 1.5rem;
+            background: var(--glass);
+            border-radius: 12px;
+            border: 1px solid rgba(33,230,193,0.2);
+        }
+        .stat h3 {
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 900;
+            color: var(--cyan-glow);
+            text-shadow: 0 0 20px var(--cyan-glow);
+        }
+        .stat p { font-size: 1rem; }
+
+        .btn-primary {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--cyan-glow), var(--purple-glow));
+            color: #000;
+            padding: clamp(0.9rem, 3vw, 1.2rem) clamp(1.8rem, 5vw, 2.5rem);
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            font-weight: 700;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 12px 35px rgba(33,230,193,0.4);
+            transition: all 0.4s ease;
+            min-width: 200px;
+            text-align: center;
+        }
+        .btn-primary:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 60px rgba(186,85,211,0.6);
+        }
+
+        /* FADE ANIMATION */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.9s ease-out;
+        }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* MOBILE MENU */
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .nav-menu {
+                position: fixed;
+                top: 0; right: -100%;
+                width: 100%; height: 100vh;
+                background: rgba(10,15,30,0.98);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 3rem;
+                transition: right 0.4s ease;
+                z-index: 999;
+            }
+            .nav-menu.active { right: 0; }
+            .nav-link { font-size: 1.6rem; }
+        }
+
+        /* EXTRA SMALL FIXES */
+        @media (max-width: 480px) {
+            .hero-about { padding: 80px 0.8rem 40px; }
+            .section { padding: 4rem 0; }
+            .container { padding: 0 0.8rem; }
+            .gambar { gap: 1rem; }
+            .btn-primary { padding: 0.9rem 2rem; font-size: 1.1rem; }
+        }
+
+        @keyframes neonPulse {
+            0% { text-shadow: 0 0 20px #00ffff, 0 0 40px #21E6C1; }
+            100% { text-shadow: 0 0 40px #00ffff, 0 0 80px #BA55D3, 0 0 120px #BA55D3; }
+        }
+    </style>
+</head>
+<body>
+
+    <img src="img/logo zhaferr.png" alt="Logo Zhafeer26 background" class="logo-z-bg">
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="beranda.html" class="nav-logo">
+                <img src="img/logo putih polos.png" alt="Logo Zhafeer26">
+                <span>ZHAFEER26</span>
+            </a>
+            <div class="hamburger"><i class="fas fa-bars"></i></div>
+            <ul class="nav-menu">
+                <li><a href="beranda.html" class="nav-link">Beranda</a></li>
+                <li><a href="about.html" class="nav-link active">Tentang</a></li>
+                <li><a href="gallery/gallery.html" class="nav-link">Galeri</a></li>
+                <li><a href="event.html" class="nav-link">Event</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero About -->
+    <section class="hero-about">
+        <h1 class="fade-up">TENTANG KAMI</h1>
+    </section>
+
+    <div class="gambar">
+        <img src="img/logo smks.png" alt="Logo SMK Al-Mahrusiyah">
+        <img src="img/logo putih polos.png" alt="Logo Zhafeer26">
+        <img src="img/logo zhaferr.png" alt="Logo Z Zhafeer">
+    </div>
+
+    <!-- SMK Al-Mahrusiyah -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title fade-up">SMK <br>Al-Mahrusiyah</h2>
+            <div class="grid">
+                <div class="card fade-up">
+                    <img src="img/logo smks.png" alt="Logo SMK Al-Mahrusiyah">
+                    <h3>Pusat Keunggulan Teknologi & Karakter</h3>
+                    <p>SMK kami merupakan sekolah berbasis teknologi dengan kurikulum industri 4.0, pengajar mumpuni, laboratorium modern, dan pengembangan karakter Islami. Menghasilkan lulusan siap kerja dan berakhlak mulia.</p>
+                    <div style="text-align:center; margin-top: 3rem;" class="fade-up">
+                        <a href="profil-guru.html" class="btn-primary">Lihat Profil Guru</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats fade-up">
+                <div class="stat">
+                    <h3 class="counter" data-target="2012">2012</h3>
+                    <p>Tahun Berdiri</p>
+                </div>
+                <div class="stat">
+                    <h3 class="counter" data-target="200">200+</h3>
+                    <p>Siswa Kelas XII</p>
+                </div>
+                <div class="stat">
+                    <h3 class="counter" data-target="35">35+</h3>
+                    <p>Guru Produktif</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Zhafeer26 & JKM sections (sama seperti sebelumnya, tapi dengan class fade-up & container fix) -->
+    <!-- ... (copy bagian Zhafeer26 dan JKM dari kode asli Tuanku, pastikan pakai .container dan .fade-up) ... -->
+
+     <!-- Zhafeer26 -->
+    <section class="section ">
+        <div class="container" style="z-index: 10;">
+            <h2 class="section-title fade-up">Zhafeer<span style="font-size:0.5em;vertical-align:super;">26</span></h2>
+            <div class="grid">
+                <div class="card fade-up">
+                    <img src="img/1.png" alt="Zhafeer26" style="width: 200px; height: auto; filter: drop-shadow(0 0 30px #21E6C1); z-index: 20; filter: brightness(1.3)contrast(1.5);  ">
+                    <h3>Generasi Emas Masa Depan</h3>
+                    <p>Ini Adalah Angkatan Kami Yang Selalu Menjunjung Tinggi Solidaritas Dan Rasa Dan Kekeluargaan Sesama Anggota
+                        Sesuai Slogan Kami Bagai Ikatan Keluarga Bukan Hanya Sekedar Saudara.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JKM 10 -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title fade-up">JKM<span style="font-size:0.5em;vertical-align:super;">10</span></h2>
+            <div class="grid">
+                <div class="card fade-up">
+                    <img src="img/Untitled-1.png" alt="Logo JKM 10" style="width: 200px; height: auto; filter: drop-shadow(0 0 30px #21E6C1);z-index: 10; filter: brightness(1.3)contrast(1.5);  ">
+                    <h3>Jam'iyyah Khidmatul Ma'had <span style="font-size:0.5em;vertical-align:super;">10</span></h3>
+                    <p>Kami Adalah Generasi Ke-10 Dari Organisasi ini Yang Memiliki Tugas Turun Temurun Yang Mulia Sebagai Anggota Organisasi Yang Aktif Mengurus,Membantu,Dan Merealisasikan Seluruh Program Yang Telah Dirancang Oleh Pondok Pesantren.</p>
+                </div>
+            </div>
+                
+          
+            
+            <div style="text-align:center; margin-top: 4rem;" class="fade-up">
+                <a href="gallery/gallery.html" class="btn-primary">
+                    Masuk Galeri
+                </a>
+            </div>
+        </div>
+    </section>
+    <script>
+        // Hamburger Menu
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            hamburger.querySelector('i').classList.toggle('fa-bars');
+            hamburger.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Fade Up
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        // Counter
+        const counters = document.querySelectorAll('.counter');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = +entry.target.dataset.target;
+                    let count = 0;
+                    const increment = target / 80;
+                    const timer = setInterval(() => {
+                        count += increment;
+                        entry.target.textContent = Math.ceil(count);
+                        if (count >= target) {
+                            entry.target.textContent = target === 2012 ? "2012+" : target + (target < 100 ? "+" : "");
+                            clearInterval(timer);
+                        }
+                    }, 25);
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.6 });
+        counters.forEach(c => counterObserver.observe(c));
+    </script>
+</body>
+</html>

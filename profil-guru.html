@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil Guru per Jurusan | Zhafeer26</title>
+  <meta name="description" content="Pilih jurusan untuk melihat profil guru pembina Zhafeer26">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --cyan: #21E6C1;
+      --purple: #6A0DAD;
+      --purple-glow: #BA55D3;
+      --text: #E0F7FA;
+      --text-light: #B0E0E6;
+      --glass: rgba(15,23,42,0.45);
+      --dark: #000;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Exo 2', sans-serif; background:var(--dark); color:var(--text); overflow-x:hidden; }
+
+    /* NAVBAR */
+    .navbar { position: fixed; top:0; width:100%; background:rgba(10,15,30,0.98); backdrop-filter:blur(20px); z-index:1000; padding:1.2rem 0; border-bottom:1px solid rgba(33,230,193,0.2); }
+    .nav-container { max-width:1200px; margin:0 auto; padding:0 2rem; display:flex; justify-content:space-between; align-items:center; }
+    .nav-logo { display:flex; align-items:center; gap:0.6rem; text-decoration:none; }
+    .nav-logo img { width:42px; height:42px; border-radius:50%; box-shadow:0 0 20px var(--cyan); transition:all 0.4s; }
+    .nav-logo span { font-family:'Orbitron',sans-serif; font-size:1.8rem; font-weight:900; color:var(--cyan); text-shadow:0 0 20px var(--cyan); transition:all 0.4s; }
+    .nav-logo:hover img { transform:scale(1.2) rotate(360deg); box-shadow:0 0 50px var(--cyan),0 0 100px var(--purple-glow); }
+    .nav-logo:hover span { text-shadow:0 0 40px var(--cyan),0 0 80px var(--purple-glow); }
+    .nav-menu { display:flex; gap:2.5rem; list-style:none; }
+    .nav-link { color:var(--text-light); text-decoration:none; font-weight:500; position:relative; transition:all 0.3s; }
+    .nav-link:hover, .nav-link.active { color:var(--cyan); }
+    .nav-link::after { content:''; position:absolute; bottom:-8px; left:0; width:0; height:2px; background:linear-gradient(90deg,var(--cyan),var(--purple-glow)); transition:width 0.3s; }
+    .nav-link:hover::after, .nav-link.active::after { width:100%; }
+    .hamburger { display:none; cursor:pointer; font-size:2rem; color:var(--cyan); }
+    @media (max-width:768px) {
+      .hamburger { display:block; }
+      .nav-menu { display:none; flex-direction:column; position:absolute; top:100%; left:0; width:100%; background:rgba(10,15,30,0.98); padding:1rem 0; }
+      .nav-menu.active { display:flex; }
+      .nav-link { padding:1rem 2rem; text-align:center; }
+    }
+
+    /* LOGO BG */
+    .logo-bg { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:90vmin; max-width:900px; opacity:0.35; z-index:1; pointer-events:none; filter:drop-shadow(0 0 80px var(--cyan)) drop-shadow(0 0 150px var(--purple)); }
+
+    /* HERO */
+    .hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:140px 2rem 6rem; position:relative; z-index:10; background:linear-gradient(to bottom,#000,#0A1428); }
+    .hero h1 { font-family: 'exo2' ,sans-serif; font-size:clamp(3.0rem,12vw,9rem); font-weight:900; letter-spacing:12px; color: aqua; text-shadow:0 0 20px var(--cyan); }
+    .hero p { font-size:1.8rem; color:var(--text-light); margin-top:2rem; }
+
+    /* JURUSAN BUTTONS */
+    .jurusan-section { padding:10rem 2rem 8rem; background:linear-gradient(to top,#000,#0A1428); }
+    .container { max-width:1200px; margin:0 auto; }
+    .jurusan-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1.5rem; }
+    .jurusan-btn {
+    background: rgba(10, 15, 30, 0.95);
+    border-radius: 20px;
+    padding: 2rem 1rem;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+    border: 1px solid rgba(33,230,193,0.15);
+    transition: 0.4s;
+    text-decoration: none;
+    color: var(--text);
+    display: block;
+    backdrop-filter: blur(8px);
+    position: relative;
+    z-index: 10;
+}
+    .jurusan-btn:hover { 
+      transform:translateY(-20px); 
+      box-shadow:0 30px 80px rgba(33,230,193,0.6); 
+      background:linear-gradient(135deg,var(--cyan),var(--purple-glow));
+      color:#fff;
+    }
+    .jurusan-btn img {
+  max-width: 200px;
+  margin-bottom: 1rem;
+}
+    .jurusan-btn i { font-size:4rem; color:var(--cyan); margin-bottom:1.5rem; text-shadow:0 0 30px var(--cyan); }
+    .jurusan-btn h3 { font-family:'Orbitron',sans-serif; font-size:1.8rem; margin-bottom:0.8rem; }
+    .jurusan-btn p { font-size:1.1rem; color:var(--text-light); }
+
+    /* BACK BUTTON */
+    .back-btn { 
+      display:inline-block; 
+      margin-top:6rem; 
+      background:linear-gradient(45deg,var(--cyan),var(--purple-glow)); 
+      color:#fff; 
+      padding:1rem 3rem; 
+      font-size:1.2rem; 
+      border-radius:50px; 
+      text-decoration:none; 
+      box-shadow:0 15px 40px rgba(33,230,193,0.4); 
+      transition:all 0.4s; 
+      z-index: 10;
+      position: relative;
+    }
+    .back-btn:hover { 
+      transform:translateY(-8px); 
+      box-shadow:0 30px 60px rgba(186,85,211,0.6); 
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGO BG -->
+  <img src="img/logo smks.png" alt="Logo Zhafeer26" class="logo-bg">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="beranda.html" class="nav-logo">
+        <img src="img/logo putih polos.png" alt="Zhafeer26">
+        <span>ZHAFEER26</span>
+      </a>
+      <div class="hamburger"><i class="fas fa-bars"></i></div>
+      <ul class="nav-menu">
+        <li><a href="beranda.html" class="nav-link">Beranda</a></li>
+        <li><a href="about.html" class="nav-link">Tentang</a></li>
+        <li><a href="gallery/gallery.html" class="nav-link">Galeri</a></li>
+        <li><a href="event.html" class="nav-link">Event</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1 data-aos="fade-up">PROFIL GURU PER JURUSAN</h1>
+    <p data-aos="fade-up" data-aos-delay="400">Pilih jurusan untuk melihat guru pembina Zhafeer26</p>
+  </section>
+
+  <!-- JURUSAN BUTTONS -->
+  <section class="jurusan-section">
+    <div class="container">
+      <div class="jurusan-grid">
+  
+  <a href="profil-guru-bc.html" class="jurusan-btn" data-aos="fade-up" data-aos-delay="100">
+    <img src="img/jpeg(2).jpg" width="280" alt="Broadcasting">
+    <h3>Broadcasting dan Perfilman</h3>
+    <p>Guru pembina jurusan BnP</p>
+  </a>
+
+  <a href="profil-guru-tei.html" class="jurusan-btn" data-aos="fade-up" data-aos-delay="200">
+    <img src="img/Модульные контакторы для управления нагрузками экономьте место и оптимизируйте щит(1).jpeg" width="200" alt="TEI">
+    <h3>Teknik Elektronika Industri</h3>
+    <p>Guru pembina jurusan TEI</p>
+  </a>
+
+  <a href="profil-guru-tjkt.html" class="jurusan-btn" data-aos="fade-up" data-aos-delay="300">
+    <img src="img/Trade with Confidence_ Eliminate Downtime with a Reliable Forex VPS.jpeg" width="200" alt="TJKT">
+    <h3>Teknik Jaringan Komputer dan Telekomunikasi (TJKT)</h3>
+    <p>Guru pembina jurusan TJKT</p>
+  </a>
+
+  <a href="profil-guru-tpfl.html" class="jurusan-btn" data-aos="fade-up" data-aos-delay="400">
+    <img src="img/Сварщик в работе.jpeg" width="200" alt="TJKT">
+    <h3>Teknik Pengelasan dan Fabrikasi Logam (TPFL)</h3>
+    <p>Guru pembina jurusan TPFL</p>
+  </a>
+
+</div>
+
+      <div style="text-align:center;">
+        <a href="beranda.html" class="back-btn" data-aos="fade-up" data-aos-delay="600">Kembali ke Beranda</a>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ once: true, duration: 1200, easing: 'ease-out-cubic' });
+
+    // Hamburger Menu
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      document.querySelector('.nav-menu').classList.toggle('active');
+      const icon = document.querySelector('.hamburger i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
+    });
+  </script>
+</body>
+</html>
