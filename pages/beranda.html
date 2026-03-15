@@ -197,6 +197,13 @@
       line-height: 1; margin-bottom: 16px;
       animation: fadeUp 0.9s ease forwards 0.4s; opacity: 0;
     }
+
+    @media(max-width:768px) {
+      .hero-title{ 
+        font-size: clamp(2rem, 11vw, 9rem);
+      }
+    }
+    
     .hero-subtitle {
       font-family: 'Rajdhani', sans-serif;
       font-size: clamp(1rem, 4vw, 1.5rem);
