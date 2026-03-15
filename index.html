@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>ZHAFEER26 – Kerajaan Angkatan 2026</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --cyan: #21E6C1;
+      --purple: #BA55D3;
+      --deep-purple: #6A0DAD;
+      --dark: #060a10;
+      --card-bg: rgba(6, 10, 16, 0.7);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: var(--dark);
+      font-family: 'Rajdhani', sans-serif;
+      color: #E0F7FA;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ── CANVAS BACKGROUND ── */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── GRID OVERLAY ── */
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(33,230,193,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(33,230,193,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* ── SCAN LINE ── */
+    .scanline {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0,0,0,0.08) 3px,
+        rgba(0,0,0,0.08) 4px
+      );
+    }
+
+    /* ── BACKGROUND LOGO ── */
+    .logo-z-bg {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(85vw, 460px);
+      opacity: 0.18;
+      z-index: 3;
+      pointer-events: none;
+      filter: drop-shadow(0 0 60px var(--cyan));
+      animation: breathe 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes breathe {
+      0%   { opacity: 0.12; filter: drop-shadow(0 0 40px var(--cyan)); }
+      100% { opacity: 0.22; filter: drop-shadow(0 0 100px var(--cyan)) drop-shadow(0 0 200px var(--purple)); }
+    }
+
+    /* ── MAIN WRAPPER ── */
+    .page {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      width: 100%;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(33,230,193,0.1);
+      backdrop-filter: blur(10px);
+      background: rgba(6,10,16,0.5);
+    }
+
+    .topbar-badge {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(0.55rem, 2.2vw, 0.72rem);
+      letter-spacing: 3px;
+      color: var(--cyan);
+      text-shadow: 0 0 12px var(--cyan);
+      opacity: 0.8;
+    }
+
+    .topbar-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .topbar-dots span {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+    }
+    .topbar-dots span:nth-child(1) { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+    .topbar-dots span:nth-child(2) { background: var(--purple); box-shadow: 0 0 8px var(--purple); }
+    .topbar-dots span:nth-child(3) { background: rgba(255,255,255,0.2); }
+
+    /* ── HERO ── */
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px 30px;
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
+      gap: 0;
+    }
+
+    .welcome-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(0.6rem, 2.5vw, 0.9rem);
+      letter-spacing: clamp(6px, 3vw, 14px);
+      color: var(--cyan);
+      text-transform: uppercase;
+      text-shadow: 0 0 20px var(--cyan);
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeSlideUp 0.8s ease forwards 0.2s;
+    }
+
+    .brand {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.8rem, 14vw, 7rem);
+      font-weight: 900;
+      letter-spacing: clamp(4px, 2vw, 16px);
+      line-height: 1;
+      background: linear-gradient(135deg, #e0f7fa 0%, var(--cyan) 40%, var(--deep-purple) 70%, var(--purple) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 30px rgba(33,230,193,0.5));
+      margin-bottom: 0;
+      opacity: 0;
+      animation: fadeSlideUp 0.9s ease forwards 0.45s;
+    }
+
+    .year-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(5rem, 28vw, 14rem);
+      font-weight: 900;
+      letter-spacing: clamp(-2px, 1vw, 6px);
+      line-height: 0.85;
+      background: linear-gradient(160deg, #e0f7fa 0%, var(--cyan) 45%, var(--deep-purple) 80%, var(--purple) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 2px rgba(0,0,0,0.3);
+      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.8)) drop-shadow(0 0 60px rgba(33,230,193,0.35));
+      margin: 10px 0 24px;
+      opacity: 0;
+      animation: fadeSlideUp 1s ease forwards 0.65s;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: clamp(160px, 60vw, 320px);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent);
+      margin: 0 auto 20px;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 0.9s;
+    }
+
+    /* ── TAGLINE ── */
+    .tagline {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(0.95rem, 3.8vw, 1.35rem);
+      font-weight: 300;
+      letter-spacing: clamp(2px, 1.5vw, 5px);
+      color: rgba(176,224,230,0.75);
+      line-height: 1.7;
+      margin-bottom: 36px;
+      text-shadow: 0 0 20px rgba(33,230,193,0.3);
+      opacity: 0;
+      animation: fadeSlideUp 0.9s ease forwards 1.05s;
+    }
+
+    /* ── BUTTON ── */
+    .btn-royal {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: linear-gradient(135deg, rgba(33,230,193,0.15), rgba(106,13,173,0.3));
+      color: #fff;
+      padding: clamp(14px,4vw,18px) clamp(36px,12vw,72px);
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(0.85rem, 3.5vw, 1.15rem);
+      font-weight: 700;
+      letter-spacing: clamp(2px, 1.5vw, 5px);
+      border-radius: 4px;
+      border: 1.5px solid var(--cyan);
+      box-shadow:
+        0 0 20px rgba(33,230,193,0.25),
+        0 0 60px rgba(33,230,193,0.1),
+        inset 0 0 20px rgba(33,230,193,0.05);
+      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      overflow: hidden;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeSlideUp 0.9s ease forwards 1.2s;
+    }
+
+    .btn-royal::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(33,230,193,0.2), rgba(186,85,211,0.2));
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .btn-royal::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      transition: 0.6s;
+    }
+
+    .btn-royal:hover::before { opacity: 1; }
+    .btn-royal:hover::after { left: 150%; }
+    .btn-royal:hover {
+      transform: translateY(-4px);
+      border-color: var(--purple);
+      box-shadow:
+        0 0 30px rgba(186,85,211,0.5),
+        0 0 80px rgba(186,85,211,0.2),
+        inset 0 0 30px rgba(186,85,211,0.08);
+    }
+
+    .btn-royal:active { transform: translateY(-1px) scale(0.98); }
+
+    .btn-corner {
+      position: absolute;
+      width: 8px; height: 8px;
+      border-color: var(--cyan);
+      border-style: solid;
+      transition: border-color 0.4s;
+    }
+    .btn-corner.tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+    .btn-corner.tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+    .btn-corner.bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+    .btn-corner.br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+    .btn-royal:hover .btn-corner { border-color: var(--purple); }
+
+    /* ── SOCIAL ── */
+    .social-row {
+      display: flex;
+      align-items: center;
+      gap: clamp(20px, 6vw, 36px);
+      margin-top: 32px;
+      opacity: 0;
+      animation: fadeSlideUp 0.9s ease forwards 1.35s;
+    }
+
+    .social-row a {
+      color: rgba(33,230,193,0.6);
+      font-size: clamp(1.4rem, 5.5vw, 1.8rem);
+      transition: all 0.35s ease;
+      filter: drop-shadow(0 0 8px rgba(33,230,193,0.4));
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: clamp(44px, 11vw, 56px);
+      height: clamp(44px, 11vw, 56px);
+      border: 1px solid rgba(33,230,193,0.2);
+      border-radius: 8px;
+      background: rgba(33,230,193,0.04);
+      text-decoration: none;
+    }
+
+    .social-row a:hover {
+      color: var(--purple);
+      border-color: var(--purple);
+      background: rgba(186,85,211,0.08);
+      filter: drop-shadow(0 0 20px rgba(186,85,211,0.6));
+      transform: translateY(-4px);
+    }
+
+    /* ── BOTTOM BAR ── */
+    .bottombar {
+      width: 100%;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-top: 1px solid rgba(33,230,193,0.08);
+      backdrop-filter: blur(10px);
+      background: rgba(6,10,16,0.5);
+    }
+
+    .bottombar span {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(0.5rem, 1.8vw, 0.65rem);
+      letter-spacing: clamp(3px, 2vw, 8px);
+      color: rgba(33,230,193,0.3);
+      text-shadow: 0 0 10px rgba(33,230,193,0.2);
+      text-transform: uppercase;
+    }
+
+    /* ── PARTICLES (corner accents) ── */
+    .corner-accent {
+      position: fixed;
+      width: 80px; height: 80px;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .corner-accent.tl { top: 60px; left: 12px; }
+    .corner-accent.tr { top: 60px; right: 12px; transform: scaleX(-1); }
+    .corner-accent.bl { bottom: 50px; left: 12px; transform: scaleY(-1); }
+    .corner-accent.br { bottom: 50px; right: 12px; transform: scale(-1,-1); }
+    .corner-accent svg { width: 100%; height: 100%; }
+
+    /* ── STATUS INDICATOR ── */
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(33,230,193,0.07);
+      border: 1px solid rgba(33,230,193,0.2);
+      border-radius: 20px;
+      padding: 5px 14px;
+      margin-bottom: 20px;
+      font-size: clamp(0.62rem, 2.2vw, 0.75rem);
+      letter-spacing: 2px;
+      color: rgba(33,230,193,0.7);
+      font-family: 'Orbitron', sans-serif;
+      opacity: 0;
+      animation: fadeIn 0.8s ease forwards 0.3s;
+    }
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.7); }
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ── MOBILE SAFE AREA ── */
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
+      .bottombar { padding-bottom: calc(14px + env(safe-area-inset-bottom)); }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="bg-canvas"></canvas>
+  <div class="grid-overlay"></div>
+  <div class="scanline"></div>
+  <img src="img/logo zhaferr.png" alt="" class="logo-z-bg" onerror="this.style.display='none'">
+
+  <!-- Corner Accents -->
+  <div class="corner-accent tl">
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 40 L2 2 L40 2" stroke="rgba(33,230,193,0.3)" stroke-width="1.5"/>
+      <path d="M2 2 L16 16" stroke="rgba(33,230,193,0.15)" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="corner-accent tr">
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 40 L2 2 L40 2" stroke="rgba(33,230,193,0.3)" stroke-width="1.5"/>
+      <path d="M2 2 L16 16" stroke="rgba(33,230,193,0.15)" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="corner-accent bl">
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 40 L2 2 L40 2" stroke="rgba(33,230,193,0.3)" stroke-width="1.5"/>
+    </svg>
+  </div>
+  <div class="corner-accent br">
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 40 L2 2 L40 2" stroke="rgba(33,230,193,0.3)" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <div class="page">
+
+    <!-- Top Bar -->
+    <div class="topbar">
+      <span class="topbar-badge">ANGKATAN 2026</span>
+      <div class="topbar-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <main class="hero">
+
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        SISTEM AKTIF
+      </div>
+
+      <p class="welcome-text">WELCOME TO</p>
+
+      <h1 class="brand">ZHAFEER<span style="-webkit-text-fill-color:var(--cyan);color:var(--cyan);filter:drop-shadow(0 0 20px var(--cyan))">26</span></h1>
+
+      <div class="year-num">2026</div>
+
+      <div class="divider"></div>
+
+      <p class="tagline">
+        Bagai Ikatan Keluarga<br>
+        bukan hanya sekedar saudara
+      </p>
+
+      <a href="pages/beranda.html" class="btn-royal">
+        <span class="btn-corner tl"></span>
+        <span class="btn-corner tr"></span>
+        <span class="btn-corner bl"></span>
+        <span class="btn-corner br"></span>
+        <i class="fas fa-door-open" style="font-size:0.9em; opacity:0.7"></i>
+        MASUK
+      </a>
+
+      <div class="social-row">
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+      </div>
+
+    </main>
+
+    <!-- Bottom Bar -->
+    <div class="bottombar">
+      <span>DuaEnamGakDendam</span>
+    </div>
+
+  </div>
+
+  <script>
+    // Animated particle background
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    class Particle {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = Math.random() * W;
+        this.y = Math.random() * H;
+        this.r = Math.random() * 1.2 + 0.3;
+        this.vx = (Math.random() - 0.5) * 0.25;
+        this.vy = (Math.random() - 0.5) * 0.25;
+        this.life = Math.random();
+        this.maxLife = 0.6 + Math.random() * 0.4;
+        this.color = Math.random() > 0.55 ? '33,230,193' : '186,85,211';
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.life += 0.003;
+        if (this.life > this.maxLife || this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+      }
+      draw() {
+        const a = Math.sin((this.life / this.maxLife) * Math.PI) * 0.5;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${this.color},${a})`;
+        ctx.fill();
+      }
+    }
+
+    function init() {
+      resize();
+      particles = Array.from({ length: 80 }, () => new Particle());
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, W, H);
+      // Draw connecting lines between nearby particles
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 90) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(33,230,193,${(1 - dist/90) * 0.06})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+        particles[i].update();
+        particles[i].draw();
+      }
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', () => { resize(); });
+    init();
+    animate();
+  </script>
+</body>
+</html>

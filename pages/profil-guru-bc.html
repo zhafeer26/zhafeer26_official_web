@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>ZHAFEER26 | Guru Broadcasting & Perfilman</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --cyan: #21E6C1;
+      --purple: #BA55D3;
+      --deep-purple: #6A0DAD;
+      --dark: #060a10;
+      --text: #E0F7FA;
+      --text-muted: rgba(176,224,230,0.65);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family:'Rajdhani',sans-serif;
+      background:var(--dark); color:var(--text);
+      overflow-x:hidden; min-height:100vh;
+    }
+
+    /* ── BACKGROUND ── */
+    .grid-overlay {
+      position:fixed; inset:0; z-index:0; pointer-events:none;
+      background-image:
+        linear-gradient(rgba(33,230,193,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(33,230,193,0.03) 1px, transparent 1px);
+      background-size:40px 40px;
+    }
+    .scanline {
+      position:fixed; inset:0; z-index:0; pointer-events:none;
+      background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(0,0,0,0.06) 3px,rgba(0,0,0,0.06) 4px);
+    }
+    .logo-bg {
+      position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+      width:min(80vw,420px); opacity:0.08; z-index:1; pointer-events:none;
+      filter:drop-shadow(0 0 60px var(--cyan));
+      animation:breathe 6s ease-in-out infinite alternate;
+    }
+    @keyframes breathe {
+      0%  { opacity:0.05; filter:drop-shadow(0 0 40px var(--cyan)); }
+      100%{ opacity:0.13; filter:drop-shadow(0 0 90px var(--cyan)) drop-shadow(0 0 180px var(--purple)); }
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      position:fixed; top:0; left:0; right:0;
+      background:rgba(6,10,16,0.92);
+      backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+      z-index:1000; border-bottom:1px solid rgba(33,230,193,0.15);
+    }
+    .nav-inner {
+      max-width:1200px; margin:0 auto; padding:0 20px;
+      height:62px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .nav-left { display:flex; align-items:center; gap:12px; flex:1; min-width:0; }
+    .back-btn {
+      display:inline-flex; align-items:center; gap:6px;
+      background:rgba(33,230,193,0.07); border:1px solid rgba(33,230,193,0.2);
+      color:var(--cyan); border-radius:6px; padding:6px 12px;
+      font-family:'Orbitron',sans-serif; font-size:clamp(0.55rem,2vw,0.68rem);
+      letter-spacing:1px; font-weight:700; text-decoration:none;
+      transition:all 0.3s ease; white-space:nowrap; flex-shrink:0;
+    }
+    .back-btn:hover { background:rgba(33,230,193,0.14); border-color:var(--cyan); }
+    .breadcrumb {
+      display:flex; align-items:center; gap:6px;
+      font-family:'Orbitron',sans-serif; font-size:clamp(0.5rem,1.8vw,0.65rem);
+      letter-spacing:1px; color:rgba(33,230,193,0.35); overflow:hidden; min-width:0;
+    }
+    .breadcrumb .sep { opacity:0.4; flex-shrink:0; }
+    .breadcrumb .cur { color:rgba(33,230,193,0.7); white-space:nowrap; }
+
+    .hamburger {
+      display:none; flex-direction:column; gap:5px;
+      cursor:pointer; padding:6px; z-index:1100; background:none; border:none; flex-shrink:0;
+    }
+    .hamburger span {
+      display:block; width:24px; height:2px; background:var(--cyan);
+      border-radius:2px; transition:all 0.3s ease; box-shadow:0 0 6px var(--cyan);
+    }
+    .hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2){ opacity:0; transform:scaleX(0); }
+    .hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+    .nav-menu { display:flex; gap:16px; list-style:none; flex-shrink:0; }
+    .nav-link {
+      color:var(--text-muted); text-decoration:none;
+      font-family:'Rajdhani',sans-serif; font-weight:600; font-size:0.9rem;
+      letter-spacing:1px; position:relative; transition:color 0.3s; padding:4px 0; white-space:nowrap;
+    }
+    .nav-link::after {
+      content:''; position:absolute; bottom:-2px; left:0; width:0; height:1.5px;
+      background:linear-gradient(90deg,var(--cyan),var(--purple)); transition:width 0.35s ease;
+    }
+    .nav-link:hover,.nav-link.active { color:var(--cyan); }
+    .nav-link:hover::after,.nav-link.active::after { width:100%; }
+
+    .nav-overlay { display:none; position:fixed; inset:0; background:rgba(6,10,16,0.5); z-index:900; }
+    .nav-overlay.show { display:block; }
+
+    @media(max-width:768px){
+      .hamburger { display:flex; }
+      .nav-menu {
+        position:fixed; top:0; right:-100%; bottom:0; width:min(75vw,280px); margin-top: 3cm;
+        background:rgba(6,10,16,0.98); border-left:1px solid rgba(33,230,193,0.15);
+        flex-direction:column; justify-content:center; align-items:center; gap:28px;
+        z-index:1050; transition:right 0.35s cubic-bezier(0.23,1,0.32,1); padding:40px 20px;
+      }
+      .nav-menu.open { right:0; }
+      .nav-link { font-size:1.15rem; }
+      .breadcrumb { display:none; }
+    }
+
+    /* ── PAGE ── */
+    .page { position:relative; z-index:10; padding-top:62px; }
+
+    /* ── HERO ── */
+    .hero {
+      position:relative; overflow:hidden; text-align:center;
+      padding:clamp(44px,9vw,80px) 20px clamp(28px,5vw,48px);
+    }
+    .hero-bg {
+      position:absolute; inset:0; z-index:0;
+      background:
+        linear-gradient(rgba(6,10,16,0.88),rgba(6,10,16,0.94)),
+        url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=70') center/cover no-repeat;
+    }
+    .hero > * { position:relative; z-index:1; }
+    .hero-label {
+      display:inline-flex; align-items:center; gap:8px;
+      background:rgba(33,230,193,0.07); border:1px solid rgba(33,230,193,0.2);
+      border-radius:20px; padding:5px 16px;
+      font-family:'Orbitron',sans-serif; font-size:clamp(0.55rem,2vw,0.7rem);
+      letter-spacing:2px; color:rgba(33,230,193,0.7); margin-bottom:16px;
+      opacity:0; animation:fadeUp 0.7s ease forwards 0.2s;
+    }
+    .pulse-dot {
+      width:6px; height:6px; border-radius:50%;
+      background:var(--cyan); box-shadow:0 0 8px var(--cyan);
+      animation:pulseDot 1.8s ease-in-out infinite;
+    }
+    @keyframes pulseDot { 0%,100%{ transform:scale(1); opacity:1; } 50%{ transform:scale(0.6); opacity:0.4; } }
+    .hero h1 {
+      font-family:'Orbitron',sans-serif;
+      font-size:clamp(1.6rem,8vw,5rem); font-weight:900;
+      letter-spacing:clamp(2px,2vw,10px);
+      background:linear-gradient(135deg,#e0f7fa 0%,var(--cyan) 40%,var(--deep-purple) 75%,var(--purple) 100%);
+      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+      filter:drop-shadow(0 0 28px rgba(33,230,193,0.4));
+      line-height:1.15; margin-bottom:12px;
+      opacity:0; animation:fadeUp 0.9s ease forwards 0.4s;
+    }
+    .hero-sub {
+      font-size:clamp(0.9rem,3vw,1.1rem); font-weight:300;
+      color:var(--text-muted); letter-spacing:1px; max-width:600px; margin:0 auto;
+      opacity:0; animation:fadeUp 0.9s ease forwards 0.6s;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width:100%; height:1px;
+      background:linear-gradient(90deg,transparent,rgba(33,230,193,0.15),rgba(186,85,211,0.15),transparent);
+    }
+
+    /* ── GURU SECTION ── */
+    .guru-section { padding:clamp(44px,8vw,80px) 20px clamp(60px,10vw,100px); max-width:900px; margin:0 auto; }
+    .section-header { text-align:center; margin-bottom:clamp(32px,5vw,52px); }
+    .section-eyebrow {
+      display:inline-block; font-family:'Orbitron',sans-serif;
+      font-size:clamp(0.52rem,1.8vw,0.68rem); letter-spacing:4px;
+      color:rgba(33,230,193,0.5); margin-bottom:10px;
+    }
+    .section-title {
+      font-family:'Orbitron',sans-serif; font-size:clamp(1.3rem,5.5vw,2.4rem); font-weight:900;
+      background:linear-gradient(135deg,var(--cyan),var(--purple));
+      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+      filter:drop-shadow(0 0 14px rgba(33,230,193,0.3)); letter-spacing:clamp(2px,1.5vw,5px);
+    }
+
+    /* ── GURU CARD ── */
+    .guru-list { display:flex; flex-direction:column; gap:clamp(16px,3vw,22px); }
+    .guru-card {
+      display:flex;
+      background:linear-gradient(135deg,rgba(15,23,42,0.92) 0%,rgba(30,27,75,0.65) 100%);
+      border:1px solid rgba(33,230,193,0.18); border-radius:14px; overflow:hidden;
+      box-shadow:0 8px 32px rgba(0,0,0,0.55);
+      transition:transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+      position:relative;
+    }
+    .guru-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:2px; z-index:2;
+      background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+      opacity:0; transition:opacity 0.4s;
+    }
+    .guru-card:hover { transform:translateY(-5px); border-color:rgba(33,230,193,0.35); box-shadow:0 18px 50px rgba(33,230,193,0.1); }
+    .guru-card:hover::before { opacity:1; }
+
+    .guru-photo { width:clamp(100px,28vw,160px); flex-shrink:0; position:relative; overflow:hidden; background:rgba(10,16,30,0.8); }
+    .guru-photo img { width:100%; height:100%; object-fit:cover; object-position:top; display:block; transition:transform 0.5s ease; }
+    .guru-card:hover .guru-photo img { transform:scale(1.05); }
+
+    .guru-info { flex:1; padding:clamp(16px,3vw,24px); display:flex; flex-direction:column; gap:8px; min-width:0; }
+    .guru-name {
+      font-family:'Orbitron',sans-serif; font-size:clamp(0.78rem,3vw,1rem);
+      font-weight:700; color:#fff; letter-spacing:1px; line-height:1.3;
+    }
+    .guru-jabatan {
+      display:inline-flex; align-items:center;
+      background:rgba(33,230,193,0.1); border:1px solid rgba(33,230,193,0.25);
+      border-radius:3px; padding:3px 10px;
+      font-family:'Orbitron',sans-serif; font-size:clamp(0.5rem,1.6vw,0.62rem);
+      letter-spacing:1.5px; color:rgba(33,230,193,0.75); width:fit-content;
+    }
+    .guru-desc { font-size:clamp(0.82rem,2.5vw,0.95rem); color:var(--text-muted); line-height:1.7; }
+    .guru-quote {
+      border-left:2px solid rgba(33,230,193,0.35); padding:8px 12px;
+      font-size:clamp(0.78rem,2.3vw,0.88rem); font-style:italic;
+      color:rgba(33,230,193,0.6); background:rgba(33,230,193,0.04); border-radius:0 4px 4px 0; margin-top:2px;
+    }
+    .guru-quote::before { content:'" '; }
+    .guru-quote::after  { content:' "'; }
+
+    @media(max-width:480px){
+      .guru-card { flex-direction:column; }
+      .guru-photo { width:100%; height:clamp(160px,45vw,220px); }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top:1px solid rgba(33,230,193,0.1);
+      padding:clamp(20px,4vw,32px) 20px; text-align:center;
+      background:rgba(6,10,16,0.95); position:relative; z-index:10;
+    }
+    .footer-brand {
+      font-family:'Orbitron',sans-serif; font-size:clamp(0.85rem,3vw,1.1rem);
+      font-weight:900; color:var(--cyan); text-shadow:0 0 12px var(--cyan);
+      letter-spacing:3px; margin-bottom:8px;
+    }
+    .footer-tagline { font-size:clamp(0.6rem,2vw,0.75rem); letter-spacing:3px; color:rgba(33,230,193,0.3); font-family:'Orbitron',sans-serif; }
+
+    @keyframes fadeUp { from{ opacity:0; transform:translateY(16px); } to{ opacity:1; transform:translateY(0); } }
+    .fu { opacity:0; transform:translateY(18px); transition:opacity 0.65s ease,transform 0.65s ease; }
+    .fu.vis { opacity:1; transform:translateY(0); }
+    @supports(padding-bottom:env(safe-area-inset-bottom)){ footer{ padding-bottom:calc(20px + env(safe-area-inset-bottom)); } }
+  </style>
+</head>
+<body>
+
+  <div class="grid-overlay"></div>
+  <div class="scanline"></div>
+  <img src="../img/logo zhaferr.png" alt="" class="logo-bg" onerror="this.style.display='none'">
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="profil-guru.html" class="back-btn"><i class="fas fa-chevron-left"></i> Kembali</a>
+        <div class="breadcrumb">
+          <span>Profil Guru</span><span class="sep">/</span><span class="cur">Broadcasting &amp; Perfilman</span>
+        </div>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Buka menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="profil-guru.html" class="nav-link">Semua</a></li>
+        <li><a href="profil-guru-TJKT.html" class="nav-link">TJKT</a></li>
+        <li><a href="profil-guru-bc.html" class="nav-link active">BC</a></li>
+        <li><a href="profil-guru-tei.html" class="nav-link">TEI</a></li>
+        <li><a href="profil-guru-tpfl.html" class="nav-link">TP</a></li>
+        <li><a href="tim-penyusun.html" class="nav-link">Penyusun</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-label"><span class="pulse-dot"></span>PROFIL GURU</div>
+      <h1>Broadcasting<br>&amp; Perfilman</h1>
+      <p class="hero-sub">7 sineas luar biasa yang mengajarkan kami membuat film dan siaran profesional dari nol.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="guru-section">
+      <div class="section-header fu">
+        <div class="section-eyebrow">TENAGA PENGAJAR</div>
+        <h2 class="section-title">Guru Jurusan BC</h2>
+      </div>
+
+      <div class="guru-list">
+
+        <div class="guru-card fu">
+          <div class="guru-photo">
+            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=400&q=70" alt="Bu Tien" loading="lazy">
+          </div>
+          <div class="guru-info">
+            <div class="guru-name">Bu Tien, S.Pd.</div>
+            <div class="guru-jabatan">Kepala Program</div>
+            <p class="guru-desc">Penggerak utama lahirnya film-film juara dari sekolah kami.</p>
+            <div class="guru-quote">Kamera mahal tidak menjamin film bagus.</div>
+          </div>
+        </div>
+
+        <div class="guru-card fu">
+          <div class="guru-photo">
+            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=400&q=70" alt="Bu Alfi" loading="lazy">
+          </div>
+          <div class="guru-info">
+            <div class="guru-name">Bu Alfi, M.Pd.</div>
+            <div class="guru-jabatan">Guru Produktif</div>
+            <p class="guru-desc">Penggerak utama lahirnya film-film juara dari sekolah kami.</p>
+            <div class="guru-quote">Kamera mahal tidak menjamin film bagus.</div>
+          </div>
+        </div>
+
+        <div class="guru-card fu">
+          <div class="guru-photo">
+            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=400&q=70" alt="Bu Auna" loading="lazy">
+          </div>
+          <div class="guru-info">
+            <div class="guru-name">Bu Auna, M.Sn.</div>
+            <div class="guru-jabatan">Guru Produktif</div>
+            <p class="guru-desc">Penggerak utama lahirnya film-film juara dari sekolah kami.</p>
+            <div class="guru-quote">Kamera mahal tidak menjamin film bagus.</div>
+          </div>
+        </div>
+
+        <div class="guru-card fu">
+          <div class="guru-photo">
+            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=400&q=70" alt="Bu Lina" loading="lazy">
+          </div>
+          <div class="guru-info">
+            <div class="guru-name">Bu Lina, S.Pd.</div>
+            <div class="guru-jabatan">Guru Produktif</div>
+            <p class="guru-desc">Penggerak utama lahirnya film-film juara dari sekolah kami.</p>
+            <div class="guru-quote">Kamera mahal tidak menjamin film bagus.</div>
+          </div>
+        </div>
+
+        <div class="guru-card fu">
+          <div class="guru-photo">
+            <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=400&q=70" alt="Pak Ikhsan" loading="lazy">
+          </div>
+          <div class="guru-info">
+            <div class="guru-name">Pak Ikhsan Yahya, S.Sn.</div>
+            <div class="guru-jabatan">Guru Produktif</div>
+            <p class="guru-desc">Penggerak utama lahirnya film-film juara dari sekolah kami.</p>
+            <div class="guru-quote">Kamera mahal tidak menjamin film bagus.</div>
+          </div>
+        </div>
+
+        <div class="guru-card fu">
+          <div class="guru-photo">
+            <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=400&q=70" alt="Pak Inggit" loading="lazy">
+          </div>
+          <div class="guru-info">
+            <div class="guru-name">Pak Inggit, S.Kom.</div>
+            <div class="guru-jabatan">Guru Produktif</div>
+            <p class="guru-desc">Penggerak utama lahirnya film-film juara dari sekolah kami.</p>
+            <div class="guru-quote">Kamera mahal tidak menjamin film bagus.</div>
+          </div>
+        </div>
+
+        <div class="guru-card fu">
+          <div class="guru-photo">
+            <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=400&q=70" alt="Pak Juni" loading="lazy">
+          </div>
+          <div class="guru-info">
+            <div class="guru-name">Pak Juni, S.Sn.</div>
+            <div class="guru-jabatan">Guru Produktif</div>
+            <p class="guru-desc">Penggerak utama lahirnya film-film juara dari sekolah kami.</p>
+            <div class="guru-quote">Kamera mahal tidak menjamin film bagus.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-brand">ZHAFEER26</div>
+      <div class="footer-tagline">Broadcasting &amp; Perfilman</div>
+    </footer>
+
+  </div>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navMenu   = document.getElementById('navMenu');
+    const overlay   = document.getElementById('navOverlay');
+    function toggleMenu(open) {
+      hamburger.classList.toggle('open', open);
+      navMenu.classList.toggle('open', open);
+      overlay.classList.toggle('show', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+    hamburger.addEventListener('click', () => toggleMenu(!navMenu.classList.contains('open')));
+    overlay.addEventListener('click', () => toggleMenu(false));
+    navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+
+    const fuEls = document.querySelectorAll('.fu');
+    const fuObs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('vis'), i * 80);
+          fuObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.07 });
+    fuEls.forEach(el => fuObs.observe(el));
+  </script>
+</body>
+</html>
